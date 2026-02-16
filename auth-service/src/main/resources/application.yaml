@@ -1,3 +1,40 @@
+server:
+  port: 8080
 spring:
   application:
     name: auth-service
+  profiles:
+    active: prod
+
+  #jpa & hibernate config
+  datasource:
+    hikari:
+      maximum-pool-size: 40
+      minimum-idle: 5
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      auto-commit: true
+      connection-timeout: 30000
+      pool-name: AuthHiKariPoll
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show_sql: true # set false in production for performance/security
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+#logging
+logging:
+  level:
+    org.springframework: INFO
+    org.hibernate: ERROR
+api:
+  base:
+    path: ${spring.application.name}/api
+swagger:
+  base:
+    path: ${spring.application.name}/swagger
+# swagger config
+springdoc:
+  swagger-ui:
+    path: ${swagger.base.path}/api-docs
