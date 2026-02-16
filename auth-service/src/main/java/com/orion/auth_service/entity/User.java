@@ -1,0 +1,47 @@
+package com.orion.auth_service.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.time.Instant;
+import java.util.UUID;
+
+@Entity
+@Table(name = "tbl_users")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class User {
+
+    @Id
+    @GeneratedValue
+    private UUID id;
+
+    @Column(length = 100)
+    private String username;
+
+    @Column(unique = true)
+    private String email;
+
+    //password is nullable because of provider's user has no password
+    private String password;
+
+    // is email verified or not
+    @Column(nullable = false)
+    private Boolean isVerified = false;
+
+    @Column(nullable = false)
+    private Boolean isActive = true;
+
+    @CreatedDate
+    private Instant createdAt;
+
+    @LastModifiedDate
+    private Instant updatedAt;
+}
