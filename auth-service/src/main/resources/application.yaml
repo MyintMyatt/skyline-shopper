@@ -28,6 +28,12 @@ logging:
   level:
     org.springframework: INFO
     org.hibernate: ERROR
+# actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "help,info"
 api:
   base:
     path: ${spring.application.name}/api
