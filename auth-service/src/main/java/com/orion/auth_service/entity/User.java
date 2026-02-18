@@ -43,14 +43,9 @@ public class User {
     @Column(nullable = false)
     private Boolean isActive = true;
 
-    @ManyToMany
-    @JoinTable(
-            name = "tbl_users_roles",
-            joinColumns = @JoinColumn(name = "fk_user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "fk_role_id", referencedColumnName = "id")
-    )
-    @Builder.Default
-    private Set<Role> roles = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "fk_role_id", referencedColumnName = "id")
+    private Role role;
 
     @CreatedDate
     private Instant createdAt;
