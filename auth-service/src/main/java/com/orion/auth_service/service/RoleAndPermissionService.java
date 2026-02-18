@@ -1,6 +1,7 @@
 package com.orion.auth_service.service;
 
 import com.orion.auth_service.common.dto.ApiResponse;
+import com.orion.auth_service.entity.Permission;
 import com.orion.auth_service.entity.Role;
 import com.orion.auth_service.repo.PermissionRepository;
 import com.orion.auth_service.repo.RoleRepository;
@@ -51,6 +52,7 @@ public class RoleAndPermissionService {
     }
 
     // get all role
+    @Transactional(readOnly = true)
     public ApiResponse<Set<Role>> getAllRole() {
         Iterator<Role> roles = roleRepository.findAll().iterator();
         Set<Role> roleList = new HashSet<>();
@@ -65,4 +67,49 @@ public class RoleAndPermissionService {
                 .build();
     }
 
+    // create permission
+    @Transactional
+    public ApiResponse<Permission> createPermission(final String name, final String desc) {
+        Permission permission = Permission.builder()
+                .name(name)
+                .description(desc)
+                .build();
+
+        permission = permissionRepository.save(permission);
+        return ApiResponse.<Permission>builder()
+                .code(HttpStatus.CREATED.value())
+                .success(true)
+                .message("Permission created successfully!")
+                .content(permission)
+                .build();
+    }
+
+
+    // get permission by name
+    @Transactional(readOnly = true) // without this, will throw Large Objects(@Lob) may not be used in auto-commit mode
+    public ApiResponse<Permission> getPermissionByName(final String name) {
+        Permission permission = permissionRepository.findByNameLike("%" + name + "%").orElseThrow(() -> new NoSuchElementException("Permission not found with name : " + name));
+        return ApiResponse.<Permission>builder()
+                .code(HttpStatus.OK.value())
+                .success(true)
+                .message("permission by your search keyword : " + name)
+                .content(permission)
+                .build();
+    }
+
+    // get all permissions
+    @Transactional(readOnly = true)
+    public ApiResponse<Set<Permission>> getAllPermission() {
+        Iterator<Permission> permissions = permissionRepository.findAll().iterator();
+        Set<Permission> permissionList = new HashSet<>();
+        while (permissions.hasNext()) {
+            permissionList.add(permissions.next());
+        }
+        return ApiResponse.<Set<Permission>>builder()
+                .code(HttpStatus.OK.value())
+                .success(true)
+                .message("all Permission lists")
+                .content(permissionList)
+                .build();
+    }
 }
