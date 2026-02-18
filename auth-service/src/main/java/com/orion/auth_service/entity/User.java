@@ -9,6 +9,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -33,11 +35,22 @@ public class User {
     private String password;
 
     // is email verified or not
+    @Builder.Default
     @Column(nullable = false)
     private Boolean isVerified = false;
 
+    @Builder.Default
     @Column(nullable = false)
     private Boolean isActive = true;
+
+    @ManyToMany
+    @JoinTable(
+            name = "tbl_users_roles",
+            joinColumns = @JoinColumn(name = "fk_user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "fk_role_id", referencedColumnName = "id")
+    )
+    @Builder.Default
+    private Set<Role> roles = new HashSet<>();
 
     @CreatedDate
     private Instant createdAt;
