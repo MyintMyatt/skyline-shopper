@@ -27,6 +27,7 @@ public class Permission {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Builder.Default
     @ManyToMany(mappedBy = "permissions")
     private Set<Role> roles = new HashSet<>();
 }
