@@ -22,6 +22,7 @@ public class SpringSecurityAuditorAware implements AuditorAware<User> {
                 .map(SecurityContext::getAuthentication)
                 .filter(Authentication::isAuthenticated)
                 .map(Authentication::getPrincipal)
+                .filter(principal -> principal instanceof User)
                 .map(User.class::cast);
     }
 }

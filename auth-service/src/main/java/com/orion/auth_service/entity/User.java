@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 import java.util.HashSet;
@@ -14,6 +15,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
+@EntityListeners({AuditingEntityListener.class})
 @Table(name = "tbl_users")
 @Data
 @Builder
@@ -41,6 +43,10 @@ public class User {
 
     @Builder.Default
     @Column(nullable = false)
+    private Boolean isLocked = false;
+
+    @Builder.Default
+    @Column(nullable = false)
     private Boolean isActive = true;
 
     @ManyToOne
@@ -48,8 +54,10 @@ public class User {
     private Role role;
 
     @CreatedDate
+    @Column(nullable = false)
     private Instant createdAt;
 
     @LastModifiedDate
+    @Column(nullable = false)
     private Instant updatedAt;
 }
