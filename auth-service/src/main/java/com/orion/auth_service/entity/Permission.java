@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "tbl_permisions")
+@Table(name = "tbl_permissions")
 @Data
 @Builder
 @NoArgsConstructor

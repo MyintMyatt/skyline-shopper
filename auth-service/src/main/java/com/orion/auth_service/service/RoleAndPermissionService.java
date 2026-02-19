@@ -51,6 +51,12 @@ public class RoleAndPermissionService {
                 .build();
     }
 
+    // get role by id
+    @Transactional(readOnly = true)
+    public Role getRoleById(final Long id){
+         return roleRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Role not found!!"));
+    }
+
     // get all role
     @Transactional(readOnly = true)
     public ApiResponse<Set<Role>> getAllRole() {
