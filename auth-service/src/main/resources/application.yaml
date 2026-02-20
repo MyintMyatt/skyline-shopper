@@ -44,3 +44,10 @@ swagger:
 springdoc:
   swagger-ui:
     path: ${swagger.base.path}/api-docs
+
+jwt:
+  key: ${JWT_KEY}
+  access-token:
+    ttl: 1800000 # 30 min
+  refresh-token:
+    ttl: 604800000 # 7 days
