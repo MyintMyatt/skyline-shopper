@@ -36,10 +36,10 @@ management:
         include: "help,info"
 api:
   base:
-    path: ${spring.application.name}/api
+    path: /${spring.application.name}/api
 swagger:
   base:
-    path: ${spring.application.name}/swagger
+    path: /${spring.application.name}/swagger
 # swagger config
 springdoc:
   swagger-ui:

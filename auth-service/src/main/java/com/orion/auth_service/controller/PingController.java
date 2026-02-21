@@ -11,8 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("${api.base.path}/v1/ping")
+@RequestMapping("${api.base.path}/public/v1/ping")
 public class PingController {
+
 
     @GetMapping
     public Map<String,String> pingServer(@RequestHeader(value = HttpHeaders.USER_AGENT, required = false) String userAgent){
