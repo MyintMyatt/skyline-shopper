@@ -1,5 +1,6 @@
 package com.orion.auth_service.middleware;
 
+import com.orion.auth_service.common.constant.AppConstants;
 import com.orion.auth_service.repo.UserRepository;
 import com.orion.auth_service.security.JwtService;
 import com.orion.auth_service.security.MyUserDetailsService;
@@ -41,7 +42,7 @@ public class JwtFilter extends OncePerRequestFilter {
             }
         }
 
-        String token = jwtService.extractTokenFromCookie(request);
+        String token = jwtService.extractTokenFromCookie(request, AppConstants.TokenType.ACCESS);
         if (token == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");

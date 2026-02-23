@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +39,21 @@ public class AuthService {
             return map;
         }
         throw new RuntimeException("email and password is incorrect.");
-//        return map.put("error", "email and password is incorrect.");
     }
+
+//    @Transactional
+//    public void refresh(HttpServletRequest request){
+//        String rawRefreshToken = jwtService.extractTokenFromCookie(request, AppConstants.TokenType.REFRESH);
+//        System.err.println(rawRefreshToken);
+//        boolean isCorrect = refreshTokenService.verifyRefreshToken(rawRefreshToken);
+//        if (isCorrect){
+//            Map<String, String> map = new HashMap<>();
+//            String accessToken = jwtService.generateAccessToken(user);
+//            String refreshToken = refreshTokenService.generateRefreshToken(user, request);
+//            map.put(AppConstants.TokenType.ACCESS.getValue(),accessToken);
+//            map.put(AppConstants.TokenType.REFRESH.getValue(), refreshToken);
+//            return map;
+//        }
+//    }
+
 }
