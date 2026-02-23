@@ -27,7 +27,6 @@ public class RefreshTokenService {
 
     private final SessionRepository sessionRepository;
     private final JwtService jwtService;
-    private final RefreshTokenService refreshTokenService;
     @Value("${jwt.refresh-token.ttl}")
     private Long REFRESH_TOKEN_TTL;
 
@@ -70,7 +69,7 @@ public class RefreshTokenService {
         if (session.getIsRevoked()){
             Map<String, String> map = new HashMap<>();
             String accessToken = jwtService.generateAccessToken(session.getUser());
-            String refreshToken = refreshTokenService.generateRefreshToken(session.getUser(), request);
+            String refreshToken = generateRefreshToken(session.getUser(), request);
             map.put(AppConstants.TokenType.ACCESS.getValue(),accessToken);
             map.put(AppConstants.TokenType.REFRESH.getValue(), refreshToken);
             return map;
