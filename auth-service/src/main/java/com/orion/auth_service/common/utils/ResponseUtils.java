@@ -18,6 +18,5 @@ public class ResponseUtils {
                 .sameSite("Strict")
                 .maxAge(TTL / 1000) // divide by 1000 because TTL is millisecond
                 .build();
-
     }
 }

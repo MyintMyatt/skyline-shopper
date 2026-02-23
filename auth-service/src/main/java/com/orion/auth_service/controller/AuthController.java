@@ -1,5 +1,6 @@
 package com.orion.auth_service.controller;
 
+import com.orion.auth_service.common.constant.AppConstants;
 import com.orion.auth_service.common.utils.ResponseUtils;
 import com.orion.auth_service.dto.UserRequest;
 import com.orion.auth_service.service.AuthService;
@@ -47,8 +48,8 @@ public class AuthController {
             HttpServletRequest request
     ) {
         Map<String, String> map = authService.login(email, password, request);
-        ResponseCookie accessTokenCookie = ResponseUtils.buildResponseCookieResponse("access-token", map.get("access-token"), "/", ACCESS_TOKEN_TTL);
-        ResponseCookie refreshTokenCookie = ResponseUtils.buildResponseCookieResponse("refresh-token", map.get("refresh-token"), "/public/v1/auth/refresh", REFRESH_TOKEN_TTL);
+        ResponseCookie accessTokenCookie = ResponseUtils.buildResponseCookieResponse(AppConstants.TokenType.ACCESS.getValue(), map.get(AppConstants.TokenType.ACCESS.getValue()), "/", ACCESS_TOKEN_TTL);
+        ResponseCookie refreshTokenCookie = ResponseUtils.buildResponseCookieResponse(AppConstants.TokenType.REFRESH.getValue(), map.get(AppConstants.TokenType.REFRESH.getValue()), "/public/v1/auth/refresh", REFRESH_TOKEN_TTL);
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, accessTokenCookie.toString())
                 .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())

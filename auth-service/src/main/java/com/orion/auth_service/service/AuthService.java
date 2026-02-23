@@ -1,5 +1,6 @@
 package com.orion.auth_service.service;
 
+import com.orion.auth_service.common.constant.AppConstants;
 import com.orion.auth_service.common.dto.ApiResponse;
 import com.orion.auth_service.entity.User;
 import com.orion.auth_service.repo.UserRepository;
@@ -32,8 +33,8 @@ public class AuthService {
             User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("user not found!"));
             String accessToken = jwtService.generateAccessToken(user);
             String refreshToken = refreshTokenService.generateRefreshToken(user, request);
-            map.put("access-token",accessToken);
-            map.put("refresh-token",refreshToken);
+            map.put(AppConstants.TokenType.ACCESS.getValue(),accessToken);
+            map.put(AppConstants.TokenType.REFRESH.getValue(), refreshToken);
             return map;
         }
         throw new RuntimeException("email and password is incorrect.");

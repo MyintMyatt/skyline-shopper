@@ -1,5 +1,6 @@
 package com.orion.auth_service.security;
 
+import com.orion.auth_service.common.constant.AppConstants;
 import com.orion.auth_service.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -70,7 +71,7 @@ public class JwtService {
     public String extractTokenFromCookie(HttpServletRequest request){
         if (request.getCookies() == null) return null;
         for (Cookie cookie : request.getCookies()){
-            if ("access-token".equals(cookie.getName())){
+            if (AppConstants.TokenType.ACCESS.getValue().equals(cookie.getName())){
                 return cookie.getValue();
             }
         }
