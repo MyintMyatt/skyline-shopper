@@ -15,3 +15,12 @@
 - **read.user** = _only user read permission (can read user)_
 - **update.user** = _only user update permission (can update user)_
 - **delete.user** = _only user delete permission (can delete user)_
+
+
+## Token Generation
+- For every login, generate new **access token and refresh token** but not revoked old refresh token
+- For every request access token,  generate new **access token and refresh token** and revoked old refresh token
+  <br/>
+  ✔ Login → new access + new refresh <br/>
+  ✔ Normal request → validate only <br/>
+  ✔ Refresh → new access + new refresh + revoke old refresh <br/>

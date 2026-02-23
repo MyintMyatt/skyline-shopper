@@ -11,13 +11,12 @@ public class ResponseUtils {
     }
 
     public static ResponseCookie buildResponseCookieResponse(String name, String token,String path, Long TTL){
-        return ResponseCookie.from(name)
+        return ResponseCookie.from(name, token)
                 .httpOnly(false)
                 .secure(false)
                 .path(path)
                 .sameSite("Strict")
                 .maxAge(TTL / 1000) // divide by 1000 because TTL is millisecond
                 .build();
-
     }
 }
