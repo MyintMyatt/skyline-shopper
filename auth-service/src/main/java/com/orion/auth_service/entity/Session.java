@@ -30,6 +30,9 @@ public class Session {
 
     private Instant expiredAt;
 
+//    @Column(nullable = false)
+    private String userAgent;
+
     @Builder.Default
     @Column(nullable = false)
     private Boolean isRevoked = false; //to kill session manually.

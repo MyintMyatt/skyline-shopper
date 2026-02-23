@@ -26,9 +26,6 @@ public class JwtUtils {
     @Value("${jwt.access-token.ttl}")
     private Long ACCESS_TOKEN_TTL;
 
-    @Value("${jwt.refresh-token.ttl}")
-    private Long REFRESH_TOKEN_TTL;
-
     private SecretKey getSignedKey() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(JWT_KEY));
     }
