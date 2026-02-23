@@ -21,7 +21,6 @@ import java.util.UUID;
 public class RefreshTokenService {
 
     private final SessionRepository sessionRepository;
-    private final JwtUtils jwtUtils;
     @Value("${jwt.refresh-token.ttl}")
     private Long REFRESH_TOKEN_TTL;
 
@@ -35,9 +34,9 @@ public class RefreshTokenService {
         }
     }
 
-    public String generateRefreshToken(User user){
+    public String generateRefreshToken(User user, HttpServletRequest request){
 
-//        String userAgent = request.getHeader(HttpHeaders.USER_AGENT);
+        String userAgent = request.getHeader(HttpHeaders.USER_AGENT);
 //        User user = jwtUtils.extractTokenFromCookie(request);
         String rawToken = UUID.randomUUID().toString();
 
