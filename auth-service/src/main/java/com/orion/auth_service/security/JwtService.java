@@ -68,10 +68,10 @@ public class JwtService {
         return extractClaim(token,Claims::getSubject);
     }
 
-    public String extractTokenFromCookie(HttpServletRequest request){
+    public String extractTokenFromCookie(HttpServletRequest request, AppConstants.TokenType tokenType){
         if (request.getCookies() == null) return null;
         for (Cookie cookie : request.getCookies()){
-            if (AppConstants.TokenType.ACCESS.getValue().equals(cookie.getName())){
+            if (tokenType.getValue().equals(cookie.getName())){
                 return cookie.getValue();
             }
         }
