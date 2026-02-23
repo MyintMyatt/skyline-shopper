@@ -70,7 +70,7 @@ public class JwtService {
     public String extractTokenFromCookie(HttpServletRequest request){
         if (request.getCookies() == null) return null;
         for (Cookie cookie : request.getCookies()){
-            if ("access.token".equals(cookie.getName())){
+            if ("access-token".equals(cookie.getName())){
                 return cookie.getValue();
             }
         }

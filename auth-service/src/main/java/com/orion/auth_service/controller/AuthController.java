@@ -46,7 +46,7 @@ public class AuthController {
 
             HttpServletRequest request
     ) {
-        Map<String, String> map = (authService.login(email, password, request));
+        Map<String, String> map = authService.login(email, password, request);
         ResponseCookie accessTokenCookie = ResponseUtils.buildResponseCookieResponse("access-token", map.get("access-token"), "/", ACCESS_TOKEN_TTL);
         ResponseCookie refreshTokenCookie = ResponseUtils.buildResponseCookieResponse("refresh-token", map.get("refresh-token"), "/public/v1/auth/refresh", REFRESH_TOKEN_TTL);
         return ResponseEntity.ok()
