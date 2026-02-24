@@ -31,6 +31,8 @@ public class AuthController {
     private Long ACCESS_TOKEN_TTL;
     @Value("${jwt.refresh-token.ttl}")
     private Long REFRESH_TOKEN_TTL;
+    @Value("${api.base.path}")
+    private String apiBasePath;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserRequest request) {
@@ -50,7 +52,7 @@ public class AuthController {
     ) {
         Map<String, String> map = authService.login(email, password, request);
         ResponseCookie accessTokenCookie = ResponseUtils.buildResponseCookieResponse(AppConstants.TokenType.ACCESS.getValue(), map.get(AppConstants.TokenType.ACCESS.getValue()), "/", ACCESS_TOKEN_TTL);
-        ResponseCookie refreshTokenCookie = ResponseUtils.buildResponseCookieResponse(AppConstants.TokenType.REFRESH.getValue(), map.get(AppConstants.TokenType.REFRESH.getValue()), "/public/v1/auth/refresh", REFRESH_TOKEN_TTL);
+        ResponseCookie refreshTokenCookie = ResponseUtils.buildResponseCookieResponse(AppConstants.TokenType.REFRESH.getValue(), map.get(AppConstants.TokenType.REFRESH.getValue()), apiBasePath + "/public/v1/auth/refresh", REFRESH_TOKEN_TTL);
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, accessTokenCookie.toString())
                 .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
@@ -69,3 +71,6 @@ public class AuthController {
     }
 
 }
+
+
+

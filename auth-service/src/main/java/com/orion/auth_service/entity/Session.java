@@ -25,7 +25,7 @@ public class Session {
     @JoinColumn(name = "fk_user_id", referencedColumnName = "id", nullable = false)
     private User user;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String refreshToken;
 
     private Instant expiredAt;
