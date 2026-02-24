@@ -56,7 +56,7 @@ public class RefreshTokenService {
     }
 
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Map<String,String> verifyRefreshToken(HttpServletRequest request){
         String rawRefreshToken = jwtService.extractTokenFromCookie(request, AppConstants.TokenType.REFRESH);
         System.err.println(rawRefreshToken);
@@ -66,15 +66,19 @@ public class RefreshTokenService {
 //                .orElse(false);
         Session session = sessionRepository.findByRefreshToken(hashedResult)
                 .filter(token -> token.getExpiredAt().isAfter(Instant.now()) && !token.getIsRevoked()).orElseThrow(() -> new InvalidRequestStateException("invalid refresh token!"));
-        if (session.getIsRevoked()){
+        if (!session.getIsRevoked()){
             Map<String, String> map = new HashMap<>();
             String accessToken = jwtService.generateAccessToken(session.getUser());
             String refreshToken = generateRefreshToken(session.getUser(), request);
             map.put(AppConstants.TokenType.ACCESS.getValue(),accessToken);
             map.put(AppConstants.TokenType.REFRESH.getValue(), refreshToken);
+
+            //revoke old token
+            session.setIsRevoked(true); // don't need to save like(repo.save()) bcoz @Transactional
             return map;
         }
         throw new RuntimeException("invalid refresh token");
     }
 
 }
+
