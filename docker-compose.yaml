@@ -1,0 +1,46 @@
+version: '3.9'
+services:
+  kafka:
+    image: confluentinc/cp-kafka:7.8.0
+    container_name: kafka
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    environment:
+      CLUSTER_ID: "OxBONWGBQ1qRqGcIyKB-Bw"
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9093"
+      KAFKA_LISTENERS: CONTROLLER://:9093,EXTERNAL://:9092,INTERNAL://:9091
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9091,EXTERNAL://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1 # single replica
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KFFKA_LOG_DIRS: "/var/lib/kafka/data"
+    volumes:
+      - skyline_shopper_data:/var/lib/kafka/data
+  kafka-ui:
+    image: ghcr.io/kafbat/kafka-ui:latest
+    container_name: kafka_ui
+    ports:
+      - "9090:9090"
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_CLUSTERS_0_NAME: skyline_shoper
+      DYNAMIC_CONFIG_ENABLED: 'true'
+      SWAGGER_UI_ENABLED: 'true'
+      SERVER_PORT: 9090
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9091
+
+volumes:
+  skyline_shopper_data:
+networks:
+  skyline_shopper_net:
+    driver: bridge
+
+
